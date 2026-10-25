@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>إدارة البلدية | لوحة التحكم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="admin.js"></script>
+  <style>
+    :root { --admin-green:#315b43; --admin-green-light:#edf4ee; --admin-line:#e2e8e1; --admin-muted:#68756b; --admin-danger:#b42318; }
+    body.admin-page { font-family:'Cairo',sans-serif; }
+    .admin-container { max-width:1200px; }
+    .header-user-actions { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
+    .user-badge { font-size:12px; background:#eaf2e8; color:var(--green,#315b43); padding:5px 10px; border-radius:20px; font-weight:700; }
+    .admin-login { max-width:440px; margin:20px auto; }
+    .login-header { margin-bottom:20px; }
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-bottom:24px; }
+    .stat-card { background:#fff; border:1px solid var(--admin-line); border-radius:12px; padding:16px 18px; display:flex; align-items:center; gap:14px; box-shadow:0 2px 6px #00000005; }
+    .stat-icon { font-size:24px; background:#f4f6f2; width:46px; height:46px; display:flex; align-items:center; justify-content:center; border-radius:10px; flex:0 0 auto; }
+    .stat-card strong { display:block; font-size:23px; font-weight:800; color:#222; line-height:1.3; }
+    .stat-card small { color:var(--admin-muted); font-size:12px; }
+    .admin-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px; }
+    .admin-tabs { display:flex; gap:8px; flex-wrap:wrap; }
+    .admin-tabs button { border:1px solid var(--admin-line); background:#fff; padding:10px 15px; border-radius:8px; color:var(--admin-muted); font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+    .admin-tabs button:hover,.admin-tabs button.active { background:var(--admin-green); color:#fff; border-color:var(--admin-green); }
+    .btn-logout { color:var(--admin-danger)!important; border-color:#f2dede!important; }
+    .filter-bar { display:flex; gap:10px; margin-bottom:16px; background:#fff; padding:12px; border-radius:10px; border:1px solid var(--admin-line); flex-wrap:wrap; }
+    .search-input { flex:1 1 280px; min-width:0; border:1px solid var(--admin-line); border-radius:8px; padding:10px 13px; font:inherit; font-size:13px; outline:none; }
+    .search-input:focus,.filter-select:focus { border-color:var(--admin-green); box-shadow:0 0 0 3px #315b4314; }
+    .filter-select,.status-select { border:1px solid var(--admin-line); border-radius:8px; padding:9px 11px; font:inherit; font-size:12px; background:#fff; }
+    .admin-content-card { background:#fff; border:1px solid var(--admin-line); border-radius:12px; overflow:hidden; box-shadow:0 4px 12px #00000005; padding:16px; min-height:120px; }
+    .loading-text,.empty-state { padding:25px; text-align:center; color:var(--admin-muted); }
+    .admin-table-wrap { overflow-x:auto; }
+    .admin-table { border-collapse:collapse; width:100%; min-width:850px; background:#fff; font-size:13px; }
+    .admin-table th,.admin-table td { text-align:right; padding:12px 13px; border-bottom:1px solid var(--admin-line); vertical-align:top; }
+    .admin-table th { background:#f8faf5; color:#2c3e35; font-weight:800; white-space:nowrap; }
+    .admin-table tbody tr:hover td { background:#fafcf8; }
+    .admin-table tr:last-child td { border-bottom:0; }
+    .admin-card { border:1px solid var(--admin-line); border-radius:10px; padding:15px; margin:12px 0; background:#fff; overflow-wrap:anywhere; }
+    .admin-card h3 { margin-top:0; }
+    .admin-card p { margin:8px 0; line-height:1.8; }
+    .admin-list { display:grid; gap:12px; }
+    .admin-file-card { display:inline-flex; align-items:center; gap:6px; background:#f0f4ee; border:1px solid #d4ded0; padding:5px 9px; border-radius:6px; font-size:12px; color:var(--admin-green); text-decoration:none; margin:4px 4px 0 0; font-weight:700; }
+    .admin-file-card:hover { background:#e1ebe0; }
+    .status-select { max-width:160px; }
+    .small-button { border:1px solid var(--admin-line); border-radius:7px; padding:7px 10px; cursor:pointer; background:#fff; font:inherit; font-size:12px; }
+    .small-button:disabled,button:disabled { opacity:.6; cursor:wait; }
+    .form-status { min-height:1.4em; margin:8px 0 0; font-size:13px; }
+    .form-status.error { color:var(--admin-danger); }
+    .form-status.success { color:var(--admin-green); }
+    #news-form { display:grid; gap:9px; }
+    #news-form input,#news-form textarea { width:100%; box-sizing:border-box; border:1px solid var(--admin-line); border-radius:8px; padding:10px 12px; font:inherit; }
+    #news-form button { justify-self:start; }
+    #news-form select { width:100%; box-sizing:border-box; border:1px solid var(--admin-line); border-radius:8px; padding:10px 12px; font:inherit; background:#fff; }
+    .news-admin-image { display:block; width:min(100%,520px); max-height:260px; object-fit:cover; border-radius:9px; margin-bottom:12px; }
+    .toast { position:fixed; bottom:20px; right:20px; z-index:9999; max-width:min(420px,calc(100vw - 40px)); padding:12px 16px; border-radius:9px; background:#24372b; color:white; box-shadow:0 6px 22px #0002; opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .2s,transform .2s; }
+    .toast.show { opacity:1; transform:translateY(0); }
+    .toast.error { background:#8f211a; }
+    .muted { color:var(--admin-muted); }
+    [hidden] { display:none!important; }
+    @media (max-width:650px) { .filter-bar { padding:9px; } .filter-select { flex:1; } .admin-content-card { padding:10px; } .admin-tabs button { flex:1 1 auto; } }
+  </style>
+</head>
+<body class="admin-page">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="logo.jpeg" class="brand-mark"></img>
+        <span><strong>المحيدثة</strong><small>لوحة إدارة</small></span>
+      </a>
+      <div class="header-user-actions">
+        <span id="user-badge" class="user-badge" hidden>الموظف المناوب</span>
+        <a href="index.html" class="text-link">العودة للموقع ←</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container admin-container">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">منطقة العمل الإدارية</span>
+          <h2>لوحة التحكم والطلبات</h2>
+          <p>متابعة وتدقيق معاملات المواطنين والرسائل بشكل مباشر ومنظّم.</p>
+        </div>
+      </div>
+
+      <section id="login-panel" class="form-card admin-login">
+        <div class="login-header">
+          <h3>تسجيل الدخول</h3>
+          <p class="muted">أدخل بيانات الحساب المصرّح له للوصول إلى النظام.</p>
+        </div>
+        <form id="login-form">
+          <label>البريد الإلكتروني
+            <input type="email" name="email" required autocomplete="username" placeholder="name@municipality.gov.lb">
+          </label>
+          <label>كلمة المرور
+            <input type="password" name="password" required autocomplete="current-password" placeholder="أدخل كلمة المرور">
+          </label>
+          <button class="button button-primary button-full" type="submit">دخول آمن</button>
+          <p class="form-status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="dashboard" hidden>
+        <div class="stats-grid" aria-label="إحصائيات لوحة التحكم">
+          <div class="stat-card"><span class="stat-icon">▤</span><div><strong id="stat-total">0</strong><small>إجمالي المعاملات</small></div></div>
+          <div class="stat-card stat-pending"><span class="stat-icon">◷</span><div><strong id="stat-pending">0</strong><small>قيد المعالجة</small></div></div>
+          <div class="stat-card stat-completed"><span class="stat-icon">✓</span><div><strong id="stat-completed">0</strong><small>طلبات مكتملة</small></div></div>
+          <div class="stat-card stat-messages"><span class="stat-icon">✉</span><div><strong id="stat-messages">0</strong><small>رسائل تواصل</small></div></div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-tabs" role="tablist" aria-label="أقسام الإدارة">
+            <button type="button" class="active" data-tab="submissions" role="tab" aria-selected="true">المعاملات والشكاوى</button>
+            <button type="button" data-tab="messages" role="tab" aria-selected="false">رسائل التواصل</button>
+            <button type="button" data-tab="news" role="tab" aria-selected="false">إدارة الأخبار</button>
+          </div>
+          <button id="logout" type="button" class="button button-ghost btn-logout">تسجيل الخروج</button>
+        </div>
+
+        <div id="filter-bar" class="filter-bar">
+          <input type="search" id="admin-search" placeholder="ابحث بالاسم أو الهاتف أو رقم المعاملة أو التفاصيل..." class="search-input" autocomplete="off">
+          <select id="admin-status-filter" class="filter-select" aria-label="فلترة حسب الحالة">
+            <option value="all">كل الحالات</option>
+            <option value="pending">قيد المعالجة</option>
+            <option value="in_progress">قيد المتابعة</option>
+            <option value="completed">مكتملة</option>
+          </select>
+          <select id="admin-kind-filter" class="filter-select" aria-label="فلترة حسب النوع">
+            <option value="all">كل أنواع المعاملات</option>
+            <option value="request">طلبات</option>
+            <option value="complaint">شكاوى</option>
+          </select>
+          <button id="refresh-data" type="button" class="small-button">تحديث البيانات</button>
+        </div>
+
+        <div id="admin-content" class="admin-content-card" aria-live="polite">
+          <p class="muted loading-text">يتم تحميل البيانات...</p>
+        </div>
+      </section>
+      
+<section id="schedulesAdmin" dir="rtl">
+  <h2>إدارة دور المياه والنفايات</h2>
+  <p>عدّل المواعيد واحفظها لتظهر للمواطنين على الموقع.</p>
+
+  <label for="currentWater">الحارة التي عليها دور المياه حاليًا</label>
+  <select id="currentWater"></select>
+
+  <label for="waterNote">ملاحظة دور المياه</label>
+  <input id="waterNote" type="text"
+         placeholder="مثلاً: الدور حسب البرنامج الأسبوعي">
+
+  <h3>الحارات ومواعيد النفايات</h3>
+  <div id="neighborhoodSettings"></div>
+
+  <button type="button" id="saveSchedules">
+    حفظ ونشر الجدول
+  </button>
+
+  <p id="scheduleMessage" role="status"></p>
+</section>
+
+    </div>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

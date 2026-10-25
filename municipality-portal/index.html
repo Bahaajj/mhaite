@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="المنصة الإلكترونية للبلدية — أخبار، معاملات، وشكاوى المواطنين">
+  <title>بلديّتنا | المنصة الإلكترونية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="topbar"><div class="container topbar-inner"><span>الجمهورية اللبنانية · وزارة الداخلية و البلديات</span><span>للاستفسار: <a href="tel:+96128561110"> 110 561 28 </a></span></div></div>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="#home" aria-label="الصفحة الرئيسية"><img src=logo.jpeg class="brand-mark"></img><span><strong data-municipality>المحيدثة</strong><small>المنصة الإلكترونية</small></span></a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="فتح القائمة">☰</button>
+    <nav id="main-nav"><a href="#home">الرئيسية</a><a href="news.html">الأخبار</a><a href="#services">الخدمات الإلكترونية</a><a href="about.html">عن البلدية</a><a href="#contact">تواصل معنا</a><a href="request.html">مراجعة طلبك</a><a href="schedules.html">دور المياه و النفايات </a></nav>
+    <a class="button button-primary header-cta" href="#services">قدّم طلبك <span>←</span></a>
+  </div></header>
+  <main>
+    <section class="hero" id="home"><div class="hero-shade"></div><div class="container hero-content"><h1>بلدتنا بتجمعنا،<br><span>وخدمتكن مسؤوليتنا.</span></h1><p>تابعوا آخر أخبار البلدة، قدّموا طلباتكم إلكترونياً، وشاركوا ملاحظاتكم مع البلدية بسهولة.</p><div class="hero-actions"><a class="button button-light" href="#services">اكتشف الخدمات</a><a class="button button-ghost" href="#news">آخر الأخبار</a></div><div class="hero-note"></div></div><div class="hero-stamp"><span>خدمة</span><strong>المواطن</strong><span>أولويتنا</span></div></section>
+    <section class="quick-strip"><div class="container quick-grid"><a href="#news" class="quick-item"><span class="quick-icon">▤</span><span><strong>أخبار البلدة</strong><small>تابع المستجدات والإعلانات</small></span><b>←</b></a><a href="#services" class="quick-item"><span class="quick-icon">▣</span><span><strong>المعاملات</strong><small>قدّم طلبك عبر الإنترنت</small></span><b>←</b></a><a href="#complaint" class="quick-item"><span class="quick-icon">✉</span><span><strong>شكوى أو ملاحظة</strong><small>صوتك بيساعدنا نتحسّن</small></span><b>←</b></a></div></section>
+    <section class="section" id="services"><div class="container"><div class="section-heading"><div><span class="kicker">خدماتنا الإلكترونية</span><h2>كيف فينا نساعدك؟</h2><p>اختار الخدمة المناسبة وقدّم المعلومات المطلوبة. رح يصلك رقم مرجعي لمتابعة طلبك.</p></div><span class="heading-number">01 / SERVICES</span></div>
+      <div class="service-grid">
+        <article class="service-card"><div class="service-icon">▤</div><span class="service-tag">معاملات</span><h3>طلب معاملة بلدية</h3><p>قدّم طلب إفادة أو معاملة إدارية، وأرفق المستندات المطلوبة إذا لزم.</p><button class="text-link" data-open-form="request">تقديم طلب <span>←</span></button></article>
+        <article class="service-card"><div class="service-icon">✉</div><span class="service-tag">تواصل</span><h3>شكوى أو ملاحظة</h3><p>بلّغ عن مشكلة، اقترح تحسيناً، أو شارك ملاحظة مع فريق البلدية.</p><button class="text-link" data-open-form="complaint">إرسال ملاحظة <span>←</span></button></article>
+        <article class="service-card"><div class="service-icon">☎</div><span class="service-tag">مساعدة</span><h3>تواصل مع البلدية</h3><p>للاستفسارات العامة، استخدم معلومات التواصل أو أرسل رسالة مباشرة.</p><a class="text-link" href="#contact">معلومات التواصل <span>←</span></a></article>
+      </div>
+      <div class="notice"><span class="notice-icon">i</span><p><strong>مهم:</strong> تقديم الطلب إلكترونياً لا يعني الموافقة عليه تلقائياً. قد تحتاج بعض المعاملات إلى إبراز المستندات الأصلية أو مراجعة البلدية.</p></div>
+    </div></section>
+    <section class="section section-tint" id="news"><div class="container"><div class="section-heading"><div><span class="kicker">من البلدة</span><h2>آخر الأخبار والإعلانات</h2><p>كل جديد يهمّ أهل البلدة في مكان واحد.</p></div><span class="heading-number">02 / NEWS</span></div><div id="news-list" class="news-grid"><div class="empty-state"><span>▤</span><strong>الأخبار قريباً</strong><p>ستظهر هنا أخبار وإعلانات البلدية المنشورة.</p></div></div></div><a class="button button-light" href="news.html" style="text-align: center;margin-top: 12px; width: 100%;"> مزيد من الاخبار <span>←</span></a></section>
+<section class="section" id="about">
+    <div class="container">
+
+        <!-- مقدمة عن البلدية -->
+        <div class="about-grid">
+
+            <div class="about-art">
+                <div class="art-circle"></div>
+
+                <div class="art-card">
+                    <span>بلديّة المحيدثة</span>
+                    <strong>للناس<br>وبالناس</strong>
+                    <small>خدمة · شفافية · مشاركة</small>
+                </div>
+
+                <div class="art-leaf">✳</div>
+            </div>
+
+            <div class="about-copy">
+                <span class="kicker">عن البلدية</span>
+
+                <h2>
+                    بلدة أفضل،<br>
+                    بتعاوننا كلنا.
+                </h2>
+
+                <p>
+                    بلدية المحيدثة هي المؤسسة المحلية التي تعمل لخدمة
+                    أبناء البلدة، والحفاظ على هويتها، والمساهمة في تطوير
+                    مرافقها وتحسين جودة الحياة فيها.
+                </p>
+
+                <p>
+                    من خلال هذه المنصة، نسعى إلى تعزيز التواصل بين
+                    البلدية والمواطنين، وتسهيل الوصول إلى المعلومات
+                    والخدمات، وفتح المجال أمام الجميع للمشاركة في
+                    بناء مستقبل أفضل للمحيدثة.
+                </p>
+
+                <div class="values">
+                    <div>
+                        <strong>01</strong>
+                        <span>خدمة أسهل</span>
+                    </div>
+
+                    <div>
+                        <strong>02</strong>
+                        <span>شفافية أكبر</span>
+                    </div>
+
+                    <div>
+                        <strong>03</strong>
+                        <span>مشاركة فعّالة</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- عن بلدة المحيدثة -->
+        <div class="village-section" id="village">
+
+            <div class="village-heading">
+                <span class="kicker">أرضنا وهويّتنا</span>
+
+                <h2>المحيدثة... نجمة الصبح</h2>
+
+                <p>
+                    بلدة تحمل اسمها وذاكرتها، وتتميّز بروح أهلها
+                    وترابط مجتمعها، وبما يجمع أبناءها من انتماء
+                    واعتزاز بأرضهم وتراثهم.
+                </p>
+            </div>
+
+            <div class="village-grid">
+
+                <div class="village-card">
+                    <div class="village-icon">⌂</div>
+                    <h3>بلدة تجمعنا</h3>
+                    <p>
+                        المحيدثة ليست مجرد مكان نعيش فيه، بل هي
+                        بيت يجمع العائلات والأجيال، وتبقى محبّتها
+                        حاضرة في قلوب أبنائها أينما كانوا.
+                    </p>
+                </div>
+
+                <div class="village-card">
+                    <div class="village-icon">♧</div>
+                    <h3>أرض وتراث</h3>
+                    <p>
+                        نعتز بطبيعة بلدتنا وخصوصيتها، وبأشجار
+                        المرز التي تشكّل جزءاً من هويتها الطبيعية،
+                        وبكل ما ورثناه من عادات وقيم أصيلة.
+                    </p>
+                </div>
+
+                <div class="village-card">
+                    <div class="village-icon">◇</div>
+                    <h3>مستقبل أفضل</h3>
+                    <p>
+                        نطمح إلى محيدثة أكثر تطوراً ونظافة وتنظيماً،
+                        مع الحفاظ على طابعها الخاص وتعزيز التعاون
+                        بين البلدية والأهالي.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- أعضاء المجلس البلدي -->
+        <div class="council-section" id="council">
+
+            <div class="council-heading">
+                <div>
+                    <span class="kicker">فريق العمل البلدي</span>
+                    <h2>المجلس البلدي</h2>
+                    <p>
+                        تعرّفوا إلى أعضاء المجلس البلدي الذين
+                        يتولّون مسؤولية العمل البلدي وخدمة البلدة.
+                    </p>
+                </div>
+
+                <span class="council-badge">بلدية المحيدثة</span>
+            </div>
+
+
+            <!-- رئيس البلدية -->
+            <div class="president-card">
+
+                <div class="member-photo president-photo">
+                    <img
+                        src="fadel.jpeg"
+                        alt="صورة رئيس بلدية المحيدثة"
+                        loading="lazy"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                    >
+
+                    <div class="photo-placeholder">
+                        <span>صورة رئيس البلدية</span>
+                    </div>
+                </div>
+
+                <div class="president-info">
+                    <span class="member-role">رئيس المجلس البلدي</span>
+
+                    <h3>فاضل نزيه جمال</h3>
+
+                    <p>
+                        قيادة العمل البلدي ومتابعة المشاريع والمبادرات
+                        الهادفة إلى خدمة أبناء المحيدثة وتطوير البلدة.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- أعضاء المجلس البلدي -->
+            <div class="members-grid">
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="nicolas.jpeg"
+                            alt="صورة عضو المجلس البلدي الأول"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>نقولا الحداد</h3>
+                    </div>
+                </article>
+
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="nada.jpeg"
+                            alt="صورة عضو المجلس البلدي الثاني"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>ندى البراضعي محمود</h3>
+                    </div>
+                </article>
+
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="images/member-03.jpg"
+                            alt="صورة عضو المجلس البلدي الثالث"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>اسم العضو الثالث</h3>
+                    </div>
+                </article>
+
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="images/member-04.jpg"
+                            alt="صورة عضو المجلس البلدي الرابع"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>اسم العضو الرابع</h3>
+                    </div>
+                </article>
+
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="images/member-05.jpg"
+                            alt="صورة عضو المجلس البلدي الخامس"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>اسم العضو الخامس</h3>
+                    </div>
+                </article>
+
+
+                <article class="member-card">
+                    <div class="member-photo">
+                        <img
+                            src="images/member-06.jpg"
+                            alt="صورة عضو المجلس البلدي السادس"
+                            loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <div class="photo-placeholder">
+                            <span>صورة العضو</span>
+                        </div>
+                    </div>
+
+                    <div class="member-info">
+                        <span class="member-role">عضو مجلس بلدي</span>
+                        <h3>اسم العضو السادس</h3>
+                    </div>
+                </article>
+
+            </div>
+
+           
+
+        </div>
+
+
+        <!-- رؤية البلدية -->
+        <div class="vision-section">
+
+            <div class="vision-content">
+                <span class="kicker">رؤيتنا للمستقبل</span>
+
+                <h2>المحيدثة مسؤوليتنا جميعاً</h2>
+
+                <p>
+                    نؤمن بأن تطوير البلدة يبدأ بالتعاون، وأن التواصل
+                    الواضح مع المواطنين هو أساس العمل البلدي الناجح.
+                    هدفنا بلدة تحافظ على تراثها، وتواكب التطور،
+                    وتمنح أبناءها مساحة أكبر للمشاركة في صنع القرار.
+                </p>
+
+                <a href="#contact" class="vision-button">
+                    تواصلوا معنا
+                </a>
+            </div>
+
+            <div class="vision-decoration">
+                <span>المحيدثة</span>
+                <strong>معاً<br>نصنع الفرق</strong>
+                <small>أرضنا · أهلنا · مستقبلنا</small>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+    <section class="section" id="contact"><div class="container contact-grid"><div><span class="kicker">نحنا حدّك</span><h2>تواصل مع البلدية</h2><p class="muted">للاستفسارات العامة أو لمتابعة معاملة، فيك تتواصل معنا خلال أوقات الدوام الرسمي.</p><div class="contact-line"><span>⌖</span><div><small>العنوان</small><strong data-address>مبنى البلدية، البلدة، لبنان</strong></div></div><div class="contact-line"><span>☎</span><div><small>الهاتف</small><strong data-phone>00 000 000</strong></div></div><div class="contact-line"><span>✉</span><div><small>البريد الإلكتروني</small><strong data-email>info@example.com</strong></div></div></div>
+      <form id="contact-form" class="form-card"><h3>ابعث رسالة</h3><p>اترك معلوماتك ورسالتك، ورح يتابعها فريق البلدية.</p><label>الاسم الكامل<input name="name" required maxlength="100" placeholder="اسمك الكامل"></label><div class="form-row"><label>البريد الإلكتروني<input name="email" type="email" maxlength="150" placeholder="name@example.com"></label><label>رقم الهاتف<input name="phone" type="tel" maxlength="30" placeholder="03 000 000"></label></div><label>الرسالة<textarea name="message" rows="4" required maxlength="3000" placeholder="كيف فينا نساعدك؟"></textarea></label><button class="button button-primary" type="submit">إرسال الرسالة <span>←</span></button><p class="form-status" aria-live="polite"></p></form></div></section>
+  </main>
+  <footer class="footer"><div class="container footer-top"><a class="brand brand-footer" href="#home"><img src="logo.jpeg" class="brand-mark"></img><span><strong data-municipality>بلديّتنا</strong><small>المنصة الإلكترونية</small></span></a><p>خدمة محلية أسهل، وتواصل أقرب مع المواطنين.</p><a href="#home" class="back-top">للأعلى ↑</a></div><div class="container footer-bottom"><span>© <span id="year"></span> <span data-municipality>بلديّتنا</span> — جميع الحقوق محفوظة</span><a href="admin.html">دخول الموظفين</a><span>صُنع لخدمة أهل البلدة</span></div></footer>
+  <dialog id="service-dialog" class="modal"><button class="modal-close" id="modal-close" aria-label="إغلاق">×</button><div class="modal-heading"><span class="kicker">الخدمات الإلكترونية</span><h2 id="modal-title">تقديم طلب</h2><p id="modal-description">املأ المعلومات التالية.</p></div><form id="service-form"><input type="hidden" name="kind" id="service-kind"><label>الاسم الثلاثي <em>*</em><input name="full_name" required maxlength="150" autocomplete="name" placeholder="الاسم الثلاثي"></label><div class="form-row"><label>رقم الهاتف <em>*</em><input name="phone" type="tel" required maxlength="30" placeholder="03 000 000"></label><label>البريد الإلكتروني<input name="email" type="email" maxlength="150" placeholder="name@example.com"></label></div><div id="request-fields"><label>نوع المعاملة <em>*</em><select name="request_type"><option value="">اختر نوع المعاملة</option><option>إفادة سكن</option><option>إفادة محتويات</option><option>إفادة إدارية</option><option>طلب أو معاملة أخرى</option></select></label><label>تفاصيل الطلب <em>*</em><textarea name="details" rows="3" maxlength="4000" placeholder="اشرح طلبك بالتفصيل"></textarea></label><label>مرفقات (اختياري)<input name="attachments" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" /></label><small class="field-help">الملفات المسموحة: PDF وJPG وPNG، بحد أقصى 5MB لكل ملف.</small></div><div id="complaint-fields" hidden><label>نوع الرسالة <em>*</em><select name="complaint_type"><option value="">اختر النوع</option><option>شكوى</option><option>ملاحظة</option><option>اقتراح</option></select></label><label>الرسالة <em>*</em><textarea name="complaint_message" rows="4" maxlength="4000" placeholder="اكتب الشكوى أو الملاحظة"></textarea></label><label>موقع المشكلة (اختياري)<input name="location" maxlength="250" placeholder="الشارع أو المنطقة"></label></div><label class="consent"><input type="checkbox" name="consent" required><span>أوافق على استخدام المعلومات المقدّمة لمعالجة الطلب والتواصل معي بشأنه.</span></label><button class="button button-primary button-full" type="submit">إرسال الطلب <span>←</span></button><p class="form-status" aria-live="polite"></p><p class="privacy-note">لا ترفق معلومات أو مستندات غير ضرورية. راجع سياسة الخصوصية قبل الإطلاق الرسمي.</p></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>

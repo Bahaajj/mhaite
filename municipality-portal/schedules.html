@@ -1,0 +1,77 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174c3b">
+  <title>دور المياه والنفايات | بلدية المحيدثة</title>
+  <meta name="description" content="جدول دور المياه وجمع النفايات في بلدة المحيدثة">
+  <link rel="stylesheet" href="schedules.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="العودة إلى الصفحة الرئيسية">
+      <img src="logo.jpeg" class="brand-mark" alt="شعار بلدية المحيدثة">
+      <span><strong>المحيدثة</strong></span>
+    </a>
+    <a class="back-link" href="index.html">العودة للموقع ←</a>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">خدمات بلدية المحيدثة</p>
+      <h1>دور المياه والنفايات</h1>
+      <p class="hero-copy">
+        مواعيد واضحة لتسهيل متابعة الخدمات في جميع حارات البلدة.
+      </p>
+    </section>
+
+    <section class="schedule-section" aria-labelledby="waterHeading">
+      <h2 id="waterHeading">دور المياه الحالي</h2>
+      <div class="current-water-card">
+        <h3 id="currentWater">جارٍ تحميل الجدول...</h3>
+        <p id="waterNote"></p>
+      </div>
+
+      <h2>ترتيب دور المياه بين الحارات</h2>
+      <div id="waterGrid" class="water-grid">
+        <p>جارٍ تحميل الحارات...</p>
+      </div>
+    </section>
+
+    <section class="schedule-section" aria-labelledby="wasteHeading">
+      <h2 id="wasteHeading">برنامج جمع النفايات</h2>
+      <p>تُجمع النفايات صباحًا حسب اليوم المحدد لكل حارة.</p>
+
+      <div class="waste-table-wrap">
+        <table class="waste-table">
+          <thead>
+            <tr>
+              <th scope="col">الحارة</th>
+              <th scope="col">يوم جمع النفايات</th>
+              <th scope="col">موعد الجمع</th>
+            </tr>
+          </thead>
+          <tbody id="wasteRows">
+            <tr>
+              <td colspan="3">جارٍ تحميل المواعيد...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p id="scheduleUpdated" class="schedule-updated"></p>
+    <p id="scheduleError" class="schedule-error" role="alert" hidden></p>
+
+    <footer class="footer">
+      <span>بلدية المحيدثة</span>
+      <span>راشيا الوادي · البقاع · لبنان</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="schedules.js"></script>
+</body>
+</html>
